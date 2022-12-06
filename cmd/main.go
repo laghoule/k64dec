@@ -14,8 +14,9 @@ import (
 )
 
 const (
-	// FIXME: secrets are limited to 1M
-	bufSize = 4 * 1024
+	// 1MiB + 1KiB
+	// secrets are limited to 1MiB
+	bufSize = 1048576 + 1024
 )
 
 var (
