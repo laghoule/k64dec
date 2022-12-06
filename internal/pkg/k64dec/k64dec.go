@@ -20,7 +20,7 @@ func decode(data []byte) (*corev1.Secret, error) {
 	return object, nil
 }
 
-// PrintDecodedSecret print decoded the content of secret data 
+// PrintDecodedSecret print decoded the content of secret data
 func PrintDecodedSecret(data []byte) error {
 	secret, err := decode(data)
 	if err != nil {
