@@ -1,4 +1,4 @@
-module k64dec
+module github.com/laghoule/k64dec
 
 go 1.19
 

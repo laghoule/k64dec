@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"k64dec/internal/pkg/k64dec"
+	"github.com/laghoule/k64dec/internal/pkg/k64dec"
 
 	"github.com/pterm/pterm"
 	flag "github.com/spf13/pflag"
