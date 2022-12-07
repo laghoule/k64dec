@@ -10,11 +10,11 @@ import (
 )
 
 const (
-	yamlStringDataGold = "testdata/secretStringData.yaml"
-	yamlDataGold       = "testdata/secretData.yaml"
-	jsonDataGold       = "testdata/secretData.json"
-	bytesDataGold      = "testdata/secretData.bytes"
-	badSecret          = "testdata/badSecret"
+	yamlStringDataGold = "../../../testdata/secretStringData.yaml"
+	yamlDataGold       = "../../../testdata/secretData.yaml"
+	jsonDataGold       = "../../../testdata/secretData.json"
+	bytesDataGold      = "../../../testdata/secretData.bytes"
+	badSecret          = "../../../testdata/badSecret"
 )
 
 func TestDecode(t *testing.T) {
