@@ -31,8 +31,10 @@ func PrintDecodedSecret(data []byte) error {
 		for k, v := range secret.Data {
 			print(k, string(v))
 		}
+		return nil
 	}
 
+	// secret.StringData isn't base64 encoded
 	if len(secret.StringData) > 0 {
 		for k, v := range secret.StringData {
 			print(k, v)
