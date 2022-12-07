@@ -40,7 +40,7 @@ jobs:
           goarch: ${{ matrix.goarch }}
           goversion: "https://dl.google.com/go/go1.19.3.linux-amd64.tar.gz"
           build_flags: -v
-          ldflags: -X 'github.com/laghoule/main/main.version=$VERSION' -X 'github.com/laghoule/k64dec/main.buildDate=$BUILD_DATE' -X 'github.com/laghoule/k64dec/main.gitCommit=$GIT_COMMIT' -X 'github.com/laghoule/k64dec/main.gitRef=$GIT_REF'
+          ldflags: -X 'github.com/laghoule/main/main.version=$VERSION' -X 'github.com/laghoule/k64dec/main.gitCommit=$GIT_COMMIT' -X 'github.com/laghoule/k64dec/main.gitRef=$GIT_REF'
           project_path: "."
           extra_files: LICENSE README.md
           retry: 10
@@ -60,26 +60,24 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@3.04
         env:
           VERSION: ${{ env.VERSION }}
-          BUILD_DATE: ${{ env.BUILD_DATE }}
           GIT_COMMIT: ${{ github.sha }}
           GIT_REF: ${{ github.ref }}
         with:
           name: laghoule/k64dec
           username: ${{ github.actor }}
           password: ${{ secrets.K64DEC_TOKEN }}
-          buildargs: VERSION, BUILD_DATE, GIT_COMMIT, GIT_REF
+          buildargs: VERSION, GIT_COMMIT, GIT_REF
           registry: ghcr.io
           tag_names: true
       - name: Publish to Docker Registry
         uses: elgohr/Publish-Docker-Github-Action@3.04
         env:
           VERSION: ${{ env.VERSION }}
-          BUILD_DATE: ${{ env.BUILD_DATE }}
           GIT_COMMIT: ${{ github.sha }}
           GIT_REF: ${{ github.ref }}
         with:
           name: laghoule/k64dec
           username: ${{ secret.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          buildargs: VERSION, BUILD_DATE, GIT_COMMIT, GIT_REF
+          buildargs: VERSION, GIT_COMMIT, GIT_REF
           tag_names: true

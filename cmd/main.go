@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"time"
 
 	"github.com/laghoule/k64dec/internal/pkg/k64dec"
 
@@ -21,7 +20,6 @@ const (
 
 var (
 	version   = "devel"
-	buildDate = time.Now().String()
 	gitCommit = ""
 	gitRef    = ""
 )
@@ -32,8 +30,9 @@ func main() {
 	flag.Parse()
 
 	if *version {
-		printVersion()
-		return
+		if err := printVersion(); err != nil {
+			exitOnError(err)
+		}
 	}
 
 	var data []byte
@@ -88,14 +87,15 @@ func readFromSTDIN() ([]byte, error) {
 }
 
 // printVersion print version of k64dec
-func printVersion() {
+func printVersion() error {
 	var pdata = pterm.TableData{
-		{"Version", "Build date", "Git commit", "Git reference"},
-		{version, buildDate, gitCommit, gitRef},
+		{"Version", "Git commit", "Git reference"},
+		{version, gitCommit, gitRef},
 	}
 	if err := pterm.DefaultTable.WithHasHeader().WithData(pdata).Render(); err != nil {
-		exitOnError(err)
+		return fmt.Errorf("failed to print version: %s", err)
 	}
+	return nil
 }
 
 func exitOnError(err error) {

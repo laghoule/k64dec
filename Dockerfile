@@ -6,11 +6,10 @@ go get -d -v
 
 FROM dep AS build
 ARG VERSION "devel"
-ARG BUILD_DATE ""
 ARG GIT_COMMIT ""
 ARG GIT_REF ""
 WORKDIR /src/
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-X 'github.com/laghoule/k64dec/main.version=$VERSION' -X 'github.com/laghoule/k64dec/main.buildDate=$BUILD_DATE' -X 'github.com/laghoule/k64dec/main.gitCommit=$GIT_COMMIT' -X 'github.com/laghoule/k64dec/main.gitRef=$GIT_REF'" -o k64dec cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-X 'github.com/laghoule/k64dec/main.version=$VERSION' -X 'github.com/laghoule/k64dec/main.gitCommit=$GIT_COMMIT' -X 'github.com/laghoule/k64dec/main.gitRef=$GIT_REF'" -o k64dec cmd/main.go
 
 FROM alpine:3.17
 LABEL org.opencontainers.image.source https://github.com/laghoule/k64dec
