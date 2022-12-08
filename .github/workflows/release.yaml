@@ -77,7 +77,7 @@ jobs:
           GIT_REF: ${{ github.ref }}
         with:
           name: laghoule/k64dec
-          username: ${{ secret.DOCKERHUB_USER }}
+          username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           buildargs: VERSION, GIT_COMMIT, GIT_REF
           tag_names: true
