@@ -34,3 +34,9 @@ secretdata
 configuration:
   notifyUrl: slack://kured@feingeiXe9Ze/uuGo4Aedaiph/xae1beizaeQu
 ```
+
+With docker:
+
+```bash
+kubectl get secrets -n kured -o yaml kured-secret-values | docker run -i laghoule/k64dec
+```

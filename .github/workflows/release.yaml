@@ -54,7 +54,7 @@ jobs:
       - name: Environment Printer
         uses: managedkaos/print-env@v1.0
       - name: Publish to Github Registry
-        uses: elgohr/Publish-Docker-Github-Action@3.04
+        uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           VERSION: ${{ env.VERSION }}
           GIT_COMMIT: ${{ github.sha }}
@@ -64,10 +64,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.K64DEC_TOKEN }}
           buildargs: VERSION, GIT_COMMIT, GIT_REF
+          platforms: linux/amd64,linux/arm64
           registry: ghcr.io
-          tag_names: true
+          tags: "latest,${{ env.VERSION }}"
+          tag_semver: true
       - name: Publish to Docker Registry
-        uses: elgohr/Publish-Docker-Github-Action@3.04
+        uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           VERSION: ${{ env.VERSION }}
           GIT_COMMIT: ${{ github.sha }}
@@ -77,4 +79,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           buildargs: VERSION, GIT_COMMIT, GIT_REF
-          tag_names: true
+          platforms: linux/amd64,linux/arm64
+          tags: "latest,${{ env.VERSION }}"
+          tag_semver: true

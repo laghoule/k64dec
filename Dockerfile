@@ -2,7 +2,7 @@ FROM golang:1.19-alpine AS dep
 WORKDIR /src/
 COPY . .
 RUN cd cmd \
-go get -d -v
+	go get -d -v
 
 FROM dep AS build
 ARG VERSION "devel"
@@ -15,4 +15,3 @@ FROM alpine:3.17
 LABEL org.opencontainers.image.source https://github.com/laghoule/k64dec
 COPY --from=build /src/k64dec /usr/bin/
 ENTRYPOINT ["/usr/bin/k64dec"]
-CMD ["-h"]

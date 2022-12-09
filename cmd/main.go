@@ -99,6 +99,7 @@ func printVersion() error {
 	return nil
 }
 
+// exitOnError return exit code 1 and  an error message
 func exitOnError(err error) {
 	fmt.Printf("error: %s\n", err.Error())
 	os.Exit(1)
