@@ -64,7 +64,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.K64DEC_TOKEN }}
           buildargs: VERSION, GIT_COMMIT, GIT_REF
-          platforms: linux/amd64,linux/arm64
           registry: ghcr.io
           tags: "latest,${{ env.VERSION }}"
           tag_semver: true
@@ -79,6 +78,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           buildargs: VERSION, GIT_COMMIT, GIT_REF
-          platforms: linux/amd64,linux/arm64
           tags: "latest,${{ env.VERSION }}"
           tag_semver: true
