@@ -33,6 +33,7 @@ func main() {
 		if err := printVersion(); err != nil {
 			exitOnError(err)
 		}
+		return
 	}
 
 	var data []byte
