@@ -39,7 +39,7 @@ jobs:
           goversion: "1.19"
           pre_command: export CGO_ENABLED=0
           build_flags: -v
-          ldflags: -X 'github.com/laghoule/main/main.version=${{env.VERSION}}' -X 'github.com/laghoule/k64dec/main.gitCommit=${{ github.sha }}' -X 'github.com/laghoule/k64dec/main.gitRef=${{ github.ref }}'
+          ldflags: -X 'main.version=${{env.VERSION}}' -X 'main.gitCommit=${{ github.sha }}' -X 'main.gitRef=${{ github.ref }}'
           project_path: "cmd/"
           extra_files: LICENSE README.md
           retry: 10
