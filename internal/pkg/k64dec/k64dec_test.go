@@ -17,12 +17,17 @@ const (
 	badSecret          = "../../../testdata/badSecret"
 )
 
-func TestDecode(t *testing.T) {
-	file, err := os.ReadFile(yamlDataGold)
+func readFile(t *testing.T, fileName string) []byte {
+	file, err := os.ReadFile(fileName)
 	if err != nil {
-		t.Error(err)
-		return
+		t.Errorf("failed to read file %s", fileName)
+		return nil
 	}
+	return file
+}
+
+func TestDecode(t *testing.T) {
+	file := readFile(t, yamlDataGold)
 
 	s, err := decode(file)
 	if err != nil {
@@ -40,13 +45,9 @@ func TestDecode(t *testing.T) {
 }
 
 func TestDecodeBadSecret(t *testing.T) {
-	file, err := os.ReadFile(badSecret)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	file := readFile(t, badSecret)
 
-	_, err = decode(file)
+	_, err := decode(file)
 	assert.Error(t, err)
 }
 
@@ -64,11 +65,7 @@ func TestPrintDecodedSecret(t *testing.T) {
 	files := []string{yamlDataGold, yamlStringDataGold}
 
 	for _, testFile := range files {
-		file, err := os.ReadFile(testFile)
-		if err != nil {
-			t.Error(err)
-			return
-		}
+		file := readFile(t, testFile)
 	
 		captured := captureConsoleOutput(
 			func() {
@@ -85,13 +82,9 @@ func TestPrintDecodedSecret(t *testing.T) {
 }
 
 func TestPrintDecodedBadSecret(t *testing.T) {
-	file, err := os.ReadFile(badSecret)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	file := readFile(t, badSecret)
 
-	err = PrintDecodedSecret(file)
+	err := PrintDecodedSecret(file)
 	assert.Error(t, err)
 }
 
