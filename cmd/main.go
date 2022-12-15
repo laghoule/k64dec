@@ -15,7 +15,8 @@ import (
 const (
 	// 1MiB + 1KiB
 	// secrets are limited to 1MiB
-	bufSize = 1048576 + 1024
+	maxSize = 1048576 + 1024
+	bufSize = 1024
 )
 
 var (
@@ -62,19 +63,23 @@ func readFromSTDIN() ([]byte, error) {
 	buf := make([]byte, 0, bufSize)
 
 	var data []byte
+	var read int
 
 	for {
 		n, err := r.Read(buf[:cap(buf)])
 		buf = buf[:n]
 
-		if n == 0 {
-			if err == nil {
-				continue
-			}
-			if err == io.EOF {
-				break
-			}
-			return []byte{}, fmt.Errorf("read from STDIN failed: %s", err)
+		read += n
+		if read >= maxSize {
+			return nil, fmt.Errorf("max read buffer reach (%d)\nsecret should not exceed 1Mb", maxSize)
+		}
+
+		if n == 0 && err == nil {
+			continue
+		}
+
+		if n == 0 && err == io.EOF {
+			break
 		}
 
 		if err != nil && err != io.EOF {
@@ -93,9 +98,11 @@ func printVersion() error {
 		{"Version", "Git commit", "Git reference"},
 		{version, gitCommit, gitRef},
 	}
+
 	if err := pterm.DefaultTable.WithHasHeader().WithData(pdata).Render(); err != nil {
 		return fmt.Errorf("failed to print version: %s", err)
 	}
+
 	return nil
 }
 
