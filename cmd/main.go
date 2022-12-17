@@ -16,7 +16,7 @@ const (
 	// 1MiB + 1KiB
 	// secrets are limited to 1MiB
 	maxSize = 1048576 + 1024
-	bufSize = 1024
+	bufSize = 4096
 )
 
 var (
@@ -86,7 +86,7 @@ func readFromSTDIN() ([]byte, error) {
 			return []byte{}, fmt.Errorf("read from STDIO failed: %s", err)
 		}
 
-		data = buf
+		data = append(data, buf...)
 	}
 
 	return data, nil
