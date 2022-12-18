@@ -2,6 +2,7 @@ package k64dec
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"testing"
 
@@ -10,12 +11,18 @@ import (
 )
 
 const (
-	yamlStringDataGold = "../../../testdata/secretStringData.yaml"
-	yamlDataGold       = "../../../testdata/secretData.yaml"
-	jsonDataGold       = "../../../testdata/secretData.json"
-	bytesDataGold      = "../../../testdata/secretData.bytes"
-	badSecret          = "../../../testdata/badSecret"
+	testDataDir          = "../../../testdata"
+	testDataExpectedDir  = testDataDir + "/expected"
+	secretDataTLSYaml    = "secretDataTLSYaml"
+	secretStringDataYaml = "secretStringDataYaml"
+	secretDataYaml       = "secretDataYaml"
+	secretDataJson       = "secretDataJson"
+	badSecret            = "badSecret"
 )
+
+func resolvePath(path, file string) string {
+	return fmt.Sprintf("%s/%s", path, file)
+}
 
 func readFile(t *testing.T, fileName string) []byte {
 	file, err := os.ReadFile(fileName)
@@ -27,25 +34,28 @@ func readFile(t *testing.T, fileName string) []byte {
 }
 
 func TestDecode(t *testing.T) {
-	file := readFile(t, yamlDataGold)
-
-	s, err := decode(file)
-	if err != nil {
-		t.Error(err)
-		return
+	var files = []string{
+		secretDataYaml,
+		secretDataJson,
+		secretDataTLSYaml,
 	}
 
-	expected, err := os.ReadFile(bytesDataGold)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	for _, testFile := range files {
+		f := readFile(t, resolvePath(testDataDir, testFile))
 
-	assert.Equal(t, string(expected), s.String())
+		s, err := decode(f)
+		if err != nil {
+			t.Error(err)
+			return
+		}
+
+		expected := readFile(t, resolvePath(testDataExpectedDir, testFile+"-TestDecode"))
+		assert.Equal(t, string(expected), s.String())
+	}
 }
 
 func TestDecodeBadSecret(t *testing.T) {
-	file := readFile(t, badSecret)
+	file := readFile(t, resolvePath(testDataDir, badSecret))
 
 	_, err := decode(file)
 	assert.Error(t, err)
@@ -62,11 +72,16 @@ func captureConsoleOutput(f func()) []byte {
 }
 
 func TestPrintDecodedSecret(t *testing.T) {
-	files := []string{yamlDataGold, yamlStringDataGold}
+	files := []string{
+		secretDataYaml,
+		secretDataJson,
+		secretDataTLSYaml,
+		secretStringDataYaml,
+	}
 
 	for _, testFile := range files {
-		file := readFile(t, testFile)
-	
+		file := readFile(t, resolvePath(testDataDir, testFile))
+
 		captured := captureConsoleOutput(
 			func() {
 				if err := PrintDecodedSecret(file); err != nil {
@@ -75,14 +90,14 @@ func TestPrintDecodedSecret(t *testing.T) {
 				}
 			},
 		)
-	
-		expected := []byte{0x1b, 0x5b, 0x34, 0x6d, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x1b, 0x5b, 0x30, 0x6d, 0xa, 0x1b, 0x5b, 0x34, 0x6d, 0x1b, 0x5b, 0x30, 0x6d, 0x1b, 0x5b, 0x33, 0x6d, 0x6d, 0x79, 0x20, 0x70, 0x72, 0x65, 0x63, 0x69, 0x6f, 0x75, 0x73, 0x20, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x1b, 0x5b, 0x30, 0x6d}
+
+		expected := readFile(t, resolvePath(testDataExpectedDir, testFile+"-TestPrintDecodedSecret"))
 		assert.Equal(t, expected, captured)
 	}
 }
 
 func TestPrintDecodedBadSecret(t *testing.T) {
-	file := readFile(t, badSecret)
+	file := readFile(t, resolvePath(testDataDir, badSecret))
 
 	err := PrintDecodedSecret(file)
 	assert.Error(t, err)

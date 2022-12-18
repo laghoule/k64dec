@@ -40,3 +40,12 @@ With docker:
 ```bash
 kubectl get secrets -n kured -o yaml kured-secret-values | docker run -i laghoule/k64dec
 ```
+
+## Notes
+
+For running unittest, you need to set your timezone to UTC:
+
+```bash
+export TZ=UTC
+go test ./...
+```
