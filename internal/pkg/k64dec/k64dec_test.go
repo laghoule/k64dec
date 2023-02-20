@@ -64,6 +64,8 @@ func TestDecodeBadSecret(t *testing.T) {
 func captureConsoleOutput(f func()) []byte {
 	var buf bytes.Buffer
 	pterm.SetDefaultOutput(&buf)
+	pterm.DisableColor()
+	pterm.DisableStyling()
 
 	f()
 
@@ -92,7 +94,7 @@ func TestPrintDecodedSecret(t *testing.T) {
 		)
 
 		expected := readFile(t, resolvePath(testDataExpectedDir, testFile+"-TestPrintDecodedSecret"))
-		assert.Equal(t, expected, captured)
+		assert.Equal(t, string(expected), string(captured))
 	}
 }
 
@@ -110,6 +112,6 @@ func TestPrint(t *testing.T) {
 		},
 	)
 
-	expected := []byte{0x1b, 0x5b, 0x34, 0x6d, 0x6b, 0x65, 0x79, 0x1b, 0x5b, 0x30, 0x6d, 0xa, 0x1b, 0x5b, 0x34, 0x6d, 0x1b, 0x5b, 0x30, 0x6d, 0x1b, 0x5b, 0x33, 0x6d, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x1b, 0x5b, 0x30, 0x6d}
-	assert.Equal(t, expected, captured)
+	expected := "key\nvalue"
+	assert.Equal(t, expected, string(captured))
 }
