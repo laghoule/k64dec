@@ -14,4 +14,5 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-X 'main.version=$VERSION' -X 'm
 FROM alpine:3.17
 LABEL org.opencontainers.image.source https://github.com/laghoule/k64dec
 COPY --from=build /src/k64dec /usr/bin/
+USER nobody
 ENTRYPOINT ["/usr/bin/k64dec"]
