@@ -11,7 +11,7 @@ ARG GIT_REF ""
 WORKDIR /src/
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-X 'main.version=$VERSION' -X 'main.gitCommit=$GIT_COMMIT' -X 'main.gitRef=$GIT_REF'" -o k64dec cmd/main.go
 
-FROM alpine:3.17
+FROM alpine:3.18
 LABEL org.opencontainers.image.source https://github.com/laghoule/k64dec
 COPY --from=build /src/k64dec /usr/bin/
 USER nobody
