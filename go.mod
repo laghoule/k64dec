@@ -3,7 +3,7 @@ module github.com/laghoule/k64dec
 go 1.21
 
 require (
-	github.com/pterm/pterm v0.12.70
+	github.com/pterm/pterm v0.12.71
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.4
 	k8s.io/api v0.28.4
