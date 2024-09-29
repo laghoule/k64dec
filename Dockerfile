@@ -1,5 +1,5 @@
 ##############################
-FROM golang:1.22-alpine AS build
+FROM golang:1.23-alpine AS build
 
 ARG VERSION "devel"
 ARG GIT_COMMIT ""
