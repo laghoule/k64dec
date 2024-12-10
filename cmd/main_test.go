@@ -41,8 +41,8 @@ func TestPrintVersion(t *testing.T) {
 		},
 	)
 
-	expected := "Version | Git commit | Git reference\ndevel   |            | \n\n"
-	assert.Equal(t, expected, string(captured))
+	expected := "Version | Git commit | Git reference\ndevel   |            |              \n\n"
+  assert.Equal(t, expected, string(captured))
 }
 
 func TestReadFromSTDIN(t *testing.T) {
