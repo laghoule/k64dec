@@ -40,7 +40,7 @@ func PrintDecodedSecret(data []byte) error {
 
 // print the key, value to console
 func print(k, v string) {
-	pterm.Underscore.Printfln(k)
+	pterm.Underscore.Printfln("%s", k)
 	pterm.FgGreen.Printf("%s", v)
 	fmt.Println()
 }

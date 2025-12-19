@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: ["1.23.x"]
+        go: ["1.25.x"]
     steps:
       - uses: actions/checkout@v6
       - name: Setup Go for use with actions
@@ -34,7 +34,7 @@ jobs:
           github_token: ${{ secrets.K64DEC_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          goversion: "1.23.4"
+          goversion: "1.25.5"
           pre_command: export CGO_ENABLED=0
           build_flags: -v
           ldflags: -X 'main.version=${{env.VERSION}}' -X 'main.gitCommit=${{ github.sha }}' -X 'main.gitRef=${{ github.ref }}'
